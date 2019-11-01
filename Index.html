@@ -1,0 +1,78 @@
+<html>
+<head>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link href="style.css" rel="stylesheet" >
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="api.js" ></script>
+<!------ Include the above in your HEAD tag ---------->
+
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<div class="container">
+    <div class="row">
+        <p><h1>NEWS</h1></p>
+        <hr>
+        <br><br><br>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3" >
+             Language : 
+             <select ng-model="language" ng-change="GetNewsByCountry(language)" style="font-size: 16px;" class="form-control">
+                <option ng-selected="language == item.alpha2Code | lowercase" ng-repeat="item in languages" value="{{item.alpha2Code | lowercase}}" style="background-image:url('https://restcountries.eu/data/afg.svg');">{{item.name}}</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            Sort by : 
+            <select ng-model="sortedby" style="font-size: 16px;" class="form-control">
+                <option ng-selected="sortedby == item.id" ng-repeat="item in sortby" ng-value="item.id">{{item.label}}</option>
+            </select>
+        </div>
+        <div class="col-md-4 pull-right">
+            <input type="text" ng-model="searchKeyword" class="search-query mac-style form-control" placeholder="Search" >
+            <button ng-click="GetNewsByCountry(language,searchKeyword)" type="button" class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                     
+        </div>   
+    </div>
+</div>
+
+
+<div  class="container">
+    <div class="row">
+        <div ng-repeat="art in articles | orderBy:sortedby" class="col-md-6 jasgrid">
+
+            <div class="box-item">
+                <div class="box-post">
+                    <span class="label label-success">
+                        <a href="#" rel="tag">{{art.author}}</a>
+                    </span>
+                    <h1 class="post-title">
+                        <a href={{art.url}}>
+                            {{art.title}}
+                        </a>
+                    </h1>
+                    <span class="meta">
+                        <span><i class="glyphicon glyphicon-comment"></i> <a href="http://wordpress.thebebel.com/showcase/newsbook/2015/01/19/meet-asias-best-destinations-for-the-summer/#respond">No Comments</a></span>
+                        <span><i class="glyphicon glyphicon-time"></i> {{art.publishedAt}}</span>
+                    </span>
+                </div>
+                <img src={{art.urlToImage}} alt="" class="">        
+            </div>
+
+       
+
+
+        </div>
+        <div ng-if="articles.length==0">
+                <p>No Results</p>
+        </div>
+    
+
+        
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>
